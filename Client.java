@@ -28,21 +28,19 @@ public class Client extends JFrame {
 		textArea = new JTextArea();
 		textArea.setEditable(false);
 		JScrollPane scrollPane = new JScrollPane(textArea);
+		scrollPane.setBounds(10, 10, 900, 600);
+		panel.add(scrollPane);
+		
+		textField = new JTextField();
+		textField.setBounds(10, 620, 800, 50);
 		textField.addActionListener(new ActionListener() {
 		
 			public void actionPerformed(ActionEvent e) {
 				
 				sendMessage();
-				textField.setText("");
 			}	
 			
 		});
-		scrollPane.setBounds(10, 10, 900, 600);
-		
-		panel.add(scrollPane);
-		
-		textField = new JTextField();
-		textField.setBounds(10, 620, 800, 50);
 		panel.add(textField);
 		
 		JButton submit = new JButton("Send");
