@@ -37,9 +37,9 @@ public class Server {
 
     public static void main(String[] args) {
         
-        int port = Integer.parseInt(args[0]);
+        //int port = Integer.parseInt(args[0]);
         
-        new Server(port);
+        new Server(9090);
     }
 }
 
@@ -65,15 +65,9 @@ class ServerThread extends Thread{
                 String inputLine;
                 while ((inputLine = server.ins[user].readLine()) != null) {
                     
-                    for (int i = 0; i < server.outs.length; i++) {
-                    
-                        if (i == user) {
+                    for (int i = 0; i < server.outs.length; i++) {                  
 
-                            continue;
-
-                        }
-
-                        server.outs[i].println("[Client] " + inputLine);
+                        server.outs[i].println(inputLine);
                 
                     }
 
