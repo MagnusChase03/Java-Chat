@@ -1,78 +1,95 @@
-import java.io.*;
 import java.net.*;
+import java.io.*;
+import javax.swing.*;
+import java.awt.event.*;
 
-public class Client {
-
-    public PrintWriter out;
-    public BufferedReader in;
-
-    public Client(String host, int port, String username) {
-
-        try {
-
-            Socket socket = new Socket(host, port);
-            System.out.println("Connected to " + socket);
-
-            out = new PrintWriter(socket.getOutputStream(), true);
-            in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
-
-            new Thread(new ClientThread(this)).start();
-
-            while (true) {
-
-                String userInput;
-                while ((userInput = stdIn.readLine()) != null) {
-
-                    out.println("[" + username + "] " + userInput);
-
-                }
-
-            }
-
-        } catch (Exception e) {}
-
-    }
-
-    public static void main(String[] args) {
-
-        //String host = args[0];
-        //int port = Integer.parseInt(args[1]);
-        //String username = args[2];
-
-        new Client("localhost", 9090, "ADMIN");    
-
-    }
+public class Client extends JFrame {
+	
+	public JTextArea textArea;
+	public JTextField textField;
+	
+	public BufferedReader in;
+	public PrintWriter out;
+	
+	public String username;
+	
+	public Client(String host, int port, String username) {
+		
+		this.username = username;
+		
+		setTitle("Chat");
+		setSize(1024, 768);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		
+		JPanel panel = new JPanel();
+		panel.setLayout(null);
+		add(panel);
+		
+		textArea = new JTextArea();
+		textArea.setEditable(false);
+		JScrollPane scrollPane = new JScrollPane(textArea);
+		scrollPane.setBounds(10, 10, 900, 600);
+		
+		panel.add(scrollPane);
+		
+		textField = new JTextField();
+		textField.setBounds(10, 620, 800, 50);
+		panel.add(textField);
+		
+		JButton submit = new JButton("Send");
+		submit.setBounds(830, 620, 75, 50);
+		submit.addActionListener(new ActionListener() {
+		
+			public void actionPerformed(ActionEvent e) {
+				
+				sendMessage();
+			}	
+			
+		});
+		panel.add(submit);
+		
+		setVisible(true);
+		
+		try {
+			
+			Socket socket = new Socket(host, port);
+			
+			in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+			out = new PrintWriter(socket.getOutputStream(), true);
+			
+			while (true) {
+				System.out.println("a");
+				String message;
+				while ((message = in.readLine()) != null) {
+					
+					textArea.append(message + "\n");
+					
+				}
+				
+			}
+			
+		} catch (Exception e) {}
+		
+	}
+	
+	public void sendMessage() {
+		
+		try {
+			
+			out.println("[" + username + "] " + textField.getText());
+			
+		} catch (Exception e) {}
+		
+	}
+	
+	public static void main(String[] args) {
+		
+		// String host = args[0];
+		// int port = Integer.parseInt(args[1]);
+		// String username = args[2];
+		
+		new Client("localhost", 9090, "Admin");
+		
+	}
+	
 }
-
-class ClientThread extends Thread {
-
-    Client client;
-
-    public ClientThread(Client client) {
-
-        this.client = client;
-
-    }
-
-    public void run() {
-
-        while (true) {
-
-            try {
-
-                String input;
-                while ((input = client.in.readLine()) != null) {
-
-                    System.out.println(input);
-
-                }
-            
-            } catch (Exception e) {}
-
-        }
-
-    }
-
-}
-
