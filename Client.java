@@ -27,6 +27,7 @@ public class Client extends JFrame {
 		
 		textArea = new JTextArea();
 		textArea.setEditable(false);
+		textArea.setLineWrap(true);
 		JScrollPane scrollPane = new JScrollPane(textArea);
 		scrollPane.setBounds(10, 10, 900, 600);
 		panel.add(scrollPane);
