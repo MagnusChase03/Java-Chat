@@ -6,7 +6,7 @@ public class Client {
     public PrintWriter out;
     public BufferedReader in;
 
-    public Client(String host, int port) {
+    public Client(String host, int port, String username) {
 
         try {
 
@@ -24,7 +24,7 @@ public class Client {
                 String userInput;
                 while ((userInput = stdIn.readLine()) != null) {
 
-                    out.println(userInput);
+                    out.println("[" + username + "] " + userInput);
 
                 }
 
@@ -36,10 +36,11 @@ public class Client {
 
     public static void main(String[] args) {
 
-        String host = args[0];
-        int port = Integer.parseInt(args[1]);
+        //String host = args[0];
+        //int port = Integer.parseInt(args[1]);
+        //String username = args[2];
 
-        new Client(host, port);    
+        new Client("localhost", 9090, "ADMIN");    
 
     }
 }
