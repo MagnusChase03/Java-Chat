@@ -58,11 +58,10 @@ public class Client extends JFrame {
 			out = new PrintWriter(socket.getOutputStream(), true);
 			
 			while (true) {
-				System.out.println("a");
 				String message;
 				while ((message = in.readLine()) != null) {
 					
-					textArea.append(message + "\n");
+					textArea.setText(message + "\n" + textArea.getText());
 					
 				}
 				
