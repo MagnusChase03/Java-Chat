@@ -38,6 +38,7 @@ public class Client extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				
 				sendMessage();
+				textField.setText("");
 			}	
 			
 		});
@@ -50,6 +51,7 @@ public class Client extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				
 				sendMessage();
+				textField.setText("");
 			}	
 			
 		});
